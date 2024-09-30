@@ -74,6 +74,74 @@ public class Basic {
         newNode.next = temp.next;
         temp.next = newNode;
     }
+    public int removeFirst(){
+        if(size == 0){
+            System.out.println("Linked list is empty");
+            return Integer.MIN_VALUE;
+        }
+        else if(size == 1){
+            int val = head.data;
+            head = tail = null;
+            size = 0;
+            return val; 
+        }
+        int val = head.data;
+        head = head.next;
+        size--;
+        return val;
+    }
+    public int removeLast(){
+        if(size == 0){
+            System.out.println("Linked list is empty");
+            return Integer.MIN_VALUE;
+        }
+        else if(size == 1){
+            int val = head.data;
+            head = tail = null;
+            size = 0;
+            return val; 
+        }
+        //Previous: i = size - 2
+        Node prev = head;
+        for(int i=0;i<size-2;i++){
+            prev = prev.next;
+        }
+        int val = head.next.data; //Tail Data
+        prev.next = null;
+        tail = prev;
+        size--;
+        return val;
+    }
+    public int iterativeSearch(int key){ //O(n)
+        Node temp = head;
+        int i=0;
+
+        while (temp != null) {
+            if(temp.data == key){ //Key Found
+                return i;
+            }
+            temp = temp.next;
+            i++;
+        }
+        return -1; //Key Not Found
+    }
+    public int helper(Node head,int key){ //Real Recursive Function //O(n)
+        if(head == null){
+            return -1;
+        }
+        if(head.data == key){
+            return 0;
+        }
+        int index = helper(head.next, key);
+        if(index == -1){
+            return -1;
+        }
+        return index+1;
+    }
+    public int recursiveSearch(int key){
+        return helper(head, key);
+    }
+
     // public static void main(String[] args) {
     //     Basic ll = new Basic();
     //     ll.print();
@@ -87,6 +155,23 @@ public class Basic {
     //     ll.print();
     // }
 
+    // public static void main(String[] args) {
+    //     Basic ll = new Basic();
+    //     ll.addFirst(2);
+    //     ll.addFirst(1);
+    //     ll.addLast(4);
+    //     ll.addLast(5);
+    //     ll.addMiddle(2, 3);
+    //     ll.print(); //1->2->3->4->5->null
+    //     System.out.println("Size of linked list is: "+ll.size);
+    //     ll.removeFirst();
+    //     ll.print();
+    //     System.out.println("Size of linked list is: "+ll.size);
+    //     ll.removeLast();
+    //     ll.print();
+    //     System.out.println("Size of linked list is: "+ll.size);
+    // }
+
     public static void main(String[] args) {
         Basic ll = new Basic();
         ll.addFirst(2);
@@ -96,5 +181,11 @@ public class Basic {
         ll.addMiddle(2, 3);
         ll.print(); //1->2->3->4->5->null
         System.out.println("Size of linked list is: "+ll.size);
+
+        System.out.println(ll.iterativeSearch(3));
+        System.out.println(ll.iterativeSearch(10));
+
+        System.out.println(ll.recursiveSearch(3));
+        System.out.println(ll.recursiveSearch(10));
     }
 }
